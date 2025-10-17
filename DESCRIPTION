@@ -1,0 +1,29 @@
+Package: SIP
+Type: Package
+Title: Single-Iteration Permutation for Large-Scale Biobank Data
+Version: 0.1.0
+Author: Aubrey Annis
+Description: A single, phenome-wide permutation of large-scale biobank data.
+    When a large number of phenotypes are analyzed in parallel, a single 
+    permutation across all phenotypes followed by genetic association analyses 
+    of the permuted data enables estimation of false discovery rates (FDRs) 
+    across the phenome. These FDR estimates provide a significance criterion 
+    for interpreting genetic associations in a biobank context. For the basic
+    permutation of unrelated samples, this package takes a sample-by-variable 
+    file with ID, genotypic covariates, phenotypic covariates, and phenotypes 
+    as input. For data with related samples, it also takes a file with 
+    sample pair-wise identity-by-descent information. 
+    The function outputs a permuted sample-by-variable file ready  
+    for genome-wide association analysis.
+URL: https://github.com/acannis/SIP
+BugReports: https://github.com/acannis/SIP/issues
+License: use_mit_license()
+Encoding: UTF-8
+LazyData: true
+Depends: 
+    R (>= 3.5)
+Imports: 
+    stats,
+    data.table,
+    ggplot2
+RoxygenNote: 7.3.1
