@@ -92,12 +92,12 @@ head(sipPair_relatednessData)
 ```
 
     ##         IID1    IID2 PropIBD
-    ## 952  ID05824 ID05827  0.5365
-    ## 2526 ID03368 ID03369  0.5018
-    ## 8001 ID02703 ID03115  0.0025
-    ## 8578 ID00721 ID05478  0.0012
-    ## 7376 ID07132 ID07133  0.2674
-    ## 3454 ID06339 ID06340  0.4998
+    ## 8343 ID04318 ID06117  0.0016
+    ## 5839 ID06013 ID06015  0.4766
+    ## 3122 ID02006 ID02007  0.5000
+    ## 9641 ID04318 ID07882  0.0000
+    ## 1989 ID06986 ID06987  0.5114
+    ## 2450 ID04400 ID04401  0.5029
 
 The default permutation method will permute within biological sex and
 requires specification of a sex variable and male and female values as
@@ -135,24 +135,24 @@ The SIP method maintains correlation among phenotypes:
 sip_exampleData_permuted <- sip(df = sip_exampleData, id.var = "IID", sex.var = "SEX", male.val = 1, female.val = 2, geno.vars = c("FID","ANCESTRY","BATCH",paste0("PC",1:4)))
 ```
 
-    ## [1] "Seed: 811831"
+    ## [1] "Seed: 453014"
 
 ``` r
 sip_exampleData_permuted[1:5, 1:15]
 ```
 
     ##        FID     IID ANCESTRY SEX AGE BATCH STUDY         PC1       PC2
-    ## 1 FAM00001 ID00001      AFR   1  57     1  STU2 -0.00997818 0.0363497
-    ## 2 FAM00002 ID00002      AFR   1  60     1  STU1 -0.01303270 0.0349262
-    ## 3 FAM00003 ID00003      AFR   1  64     1  STU1 -0.01071080 0.0345597
-    ## 4 FAM00004 ID00004      EUR   2  71     1  STU1 -0.01244230 0.0364125
-    ## 5 FAM00005 ID00005      EUR   2  82     1  STU1 -0.01109950 0.0370039
+    ## 1 FAM00001 ID00001      AFR   1  41     1  STU1 -0.00997818 0.0363497
+    ## 2 FAM00002 ID00002      AFR   1  59     1  STU1 -0.01303270 0.0349262
+    ## 3 FAM00003 ID00003      AFR   1  67     1  STU1 -0.01071080 0.0345597
+    ## 4 FAM00004 ID00004      EUR   2  36     1  STU2 -0.01244230 0.0364125
+    ## 5 FAM00005 ID00005      EUR   2  64     1  STU1 -0.01109950 0.0370039
     ##            PC3        PC4 PHENO1 PHENO2 PHENO3 PHENO4
-    ## 1 -0.002534320 0.00362118      0      0      0      1
-    ## 2  0.002535730 0.00291765      0      1      0      0
-    ## 3 -0.002234060 0.00399563      0      1      1      0
-    ## 4 -0.000127672 0.00474610      0      0      0      0
-    ## 5 -0.001726030 0.00579052      0      1      1      1
+    ## 1 -0.002534320 0.00362118      1      1      1      0
+    ## 2  0.002535730 0.00291765      0      0      1      0
+    ## 3 -0.002234060 0.00399563      0      1      0      0
+    ## 4 -0.000127672 0.00474610      1      1      0      1
+    ## 5 -0.001726030 0.00579052      1      1      1      1
 
 2.  Plot correlations between phenotypes in the primary data
 
@@ -180,24 +180,24 @@ The SIP-pair method preserves correlation among related samples:
 sipPair_exampleData_permuted <- sip(df = sipPair_exampleData, id.var = "IID", sex.var = "SEX", male.val = "M", female.val = "F", geno.vars = c("FID","BATCH",paste0("PC",1:4)))
 ```
 
-    ## [1] "Seed: 442093"
+    ## [1] "Seed: 821244"
 
 ``` r
 sipPair_exampleData_permuted[1:5, 1:15]
 ```
 
     ##       FID     IID BATCH SEX AGE     PC1     PC2    PC3     PC4 PHENO1 PHENO2
-    ## 1 FAM0001 ID00001     1   M  85 -0.0006 -0.0006 0.0034 -0.0010      1      0
-    ## 2 FAM0001 ID00002     1   F  66 -0.0006 -0.0010 0.0033  0.0007      0      1
-    ## 3 FAM0002 ID00003     1   F  62  0.0052 -0.0001 0.0022  0.0001      0      0
-    ## 4 FAM0002 ID00004     1   M  60  0.0055 -0.0006 0.0020  0.0015      0      0
-    ## 5 FAM0003 ID00005     1   F  71 -0.0013 -0.0012 0.0007 -0.0002      0      0
+    ## 1 FAM0001 ID00001     1   M  75 -0.0006 -0.0006 0.0034 -0.0010      0      0
+    ## 2 FAM0001 ID00002     1   F  62 -0.0006 -0.0010 0.0033  0.0007      1      0
+    ## 3 FAM0002 ID00003     1   F  67  0.0052 -0.0001 0.0022  0.0001      0      0
+    ## 4 FAM0002 ID00004     1   M  78  0.0055 -0.0006 0.0020  0.0015      1      0
+    ## 5 FAM0003 ID00005     1   F  67 -0.0013 -0.0012 0.0007 -0.0002      1      0
     ##   PHENO3 PHENO4 PHENO5 PHENO6
     ## 1      0      0      1      0
     ## 2      1      0      0      0
     ## 3      0      0      0      0
     ## 4      0      0      0      0
-    ## 5      0      0      0      0
+    ## 5      0      0      1      0
 
 2.  Permute data with pairing
 
@@ -205,24 +205,24 @@ sipPair_exampleData_permuted[1:5, 1:15]
 sipPair_exampleData_pairPermuted <- sip_pair(df = sipPair_exampleData, id.var = "IID", sex.var = "SEX", male.val = "M", female.val = "F", geno.vars = c("FID","BATCH",paste0("PC",1:4)), rel.df = sipPair_relatednessData, rid.vars=c("IID1","IID2"), ibd.var="PropIBD")
 ```
 
-    ## [1] "Seed: 588066"
+    ## [1] "Seed: 903890"
 
 ``` r
 sipPair_exampleData_pairPermuted[1:5, 1:15]
 ```
 
     ##       FID     IID BATCH SEX AGE     PC1     PC2    PC3     PC4 PHENO1 PHENO2
-    ## 1 FAM0001 ID00001     1   M  82 -0.0006 -0.0006 0.0034 -0.0010      1      0
-    ## 2 FAM0001 ID00002     1   F  81 -0.0006 -0.0010 0.0033  0.0007      1      0
-    ## 3 FAM0002 ID00003     1   F  69  0.0052 -0.0001 0.0022  0.0001      1      0
-    ## 4 FAM0002 ID00004     1   M  71  0.0055 -0.0006 0.0020  0.0015      1      0
-    ## 5 FAM0003 ID00005     1   F  63 -0.0013 -0.0012 0.0007 -0.0002      0      0
+    ## 1 FAM0001 ID00001     1   M  84 -0.0006 -0.0006 0.0034 -0.0010      0      0
+    ## 2 FAM0001 ID00002     1   F  85 -0.0006 -0.0010 0.0033  0.0007      0      0
+    ## 3 FAM0002 ID00003     1   F  65  0.0052 -0.0001 0.0022  0.0001      1      0
+    ## 4 FAM0002 ID00004     1   M  82  0.0055 -0.0006 0.0020  0.0015      0      0
+    ## 5 FAM0003 ID00005     1   F  60 -0.0013 -0.0012 0.0007 -0.0002      1      0
     ##   PHENO3 PHENO4 PHENO5 PHENO6
-    ## 1      0      0      0      0
-    ## 2      0      0      0      1
+    ## 1      1      1      1      0
+    ## 2      0      0      0      0
     ## 3      0      0      0      0
     ## 4      0      0      0      0
-    ## 5      1      0      0      1
+    ## 5      0      0      0      0
 
 3.  Calculate pairwise correlations between samples in primary,
     permuted, and pair-permuted phenotype data. Then calculate
@@ -239,40 +239,40 @@ Multiple paired permutations show preserved correlation between pairwise
 phenotypes and IBD status. Multiple non-paired permutations show
 correlations around 0 for pairwise phenotypes and IBD status.
 
-    ## [1] "Seed: 366"
-    ## [1] "Seed: 307284"
-    ## [1] "Seed: 662842"
-    ## [1] "Seed: 170098"
-    ## [1] "Seed: 952820"
-    ## [1] "Seed: 340164"
-    ## [1] "Seed: 985319"
-    ## [1] "Seed: 151133"
-    ## [1] "Seed: 866457"
-    ## [1] "Seed: 418214"
-    ## [1] "Seed: 92447"
-    ## [1] "Seed: 523505"
-    ## [1] "Seed: 367554"
-    ## [1] "Seed: 128286"
-    ## [1] "Seed: 649882"
-    ## [1] "Seed: 367116"
-    ## [1] "Seed: 730912"
-    ## [1] "Seed: 70387"
+    ## [1] "Seed: 843387"
+    ## [1] "Seed: 929772"
+    ## [1] "Seed: 70567"
+    ## [1] "Seed: 983156"
+    ## [1] "Seed: 823200"
+    ## [1] "Seed: 105573"
+    ## [1] "Seed: 588627"
+    ## [1] "Seed: 156553"
+    ## [1] "Seed: 57171"
+    ## [1] "Seed: 540842"
+    ## [1] "Seed: 899929"
+    ## [1] "Seed: 728781"
+    ## [1] "Seed: 752220"
+    ## [1] "Seed: 39710"
+    ## [1] "Seed: 897873"
+    ## [1] "Seed: 710215"
+    ## [1] "Seed: 705753"
+    ## [1] "Seed: 376279"
 
-    ##    Permutation   Primary Pair_Permuted      Permuted
-    ## 1            1 0.2996147     0.1238149  0.0180828042
-    ## 2            2 0.2996147     0.1905018  0.0177049375
-    ## 3            3 0.2996147     0.1249722 -0.0095113809
-    ## 4            4 0.2996147     0.1336003  0.0049160614
-    ## 5            5 0.2996147     0.1289361  0.0078498653
-    ## 6            6 0.2996147     0.1361119  0.0062080423
-    ## 7            7 0.2996147     0.1386090  0.0123207028
-    ## 8            8 0.2996147     0.1393477  0.0001982628
-    ## 9            9 0.2996147     0.1406379  0.0138342221
-    ## 10          10 0.2996147     0.1027001 -0.0159871786
+    ##    Permutation     Permuted Pair_Permuted
+    ## 1            1  0.005031483     0.1641810
+    ## 2            2 -0.032301401     0.1395814
+    ## 3            3 -0.041537181     0.1479389
+    ## 4            4  0.017517838     0.1629744
+    ## 5            5 -0.007197936     0.1560678
+    ## 6            6  0.013668617     0.1850219
+    ## 7            7 -0.001806165     0.1471663
+    ## 8            8 -0.012147743     0.1359532
+    ## 9            9  0.007154194     0.1469262
+    ## 10          10  0.010456928     0.1118559
 
 ## Additional Data
 
-Summary statistics for associations with p\<1e-5 for our primary and
+Summary statistics for associations with p\<5e-6 in our primary and
 permuted UKB analyses (Annis et. al. “False discovery rates for
 genome-wide association tests in biobanks with thousands of phenotypes.”
-<https://doi.org/10.21203/rs.3.rs-873449/v1>)
+<https://doi.org/10.21203/rs.3.rs-873449/v1>) are provided in data/.

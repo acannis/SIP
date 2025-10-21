@@ -157,4 +157,4 @@ print(pwcors)
 
 ## Additional Data
 
-Summary statistics for associations with p<5e-6 in our primary and permuted UKB analyses (Annis et. al. "False discovery rates for genome-wide association tests in biobanks with thousands of phenotypes." https://doi.org/10.21203/rs.3.rs-873449/v1) are provided in the data/ directory.
+Summary statistics for associations with p<5e-6 in our primary and permuted UKB analyses (Annis et. al. "False discovery rates for genome-wide association tests in biobanks with thousands of phenotypes." https://doi.org/10.21203/rs.3.rs-873449/v1) are provided in data/.
