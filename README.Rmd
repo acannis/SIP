@@ -1,0 +1,160 @@
+---
+title: "SIP R Package"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(SIP)
+library(ggplot2)
+```
+
+The SIP R Package is designed to help researchers implement the single-iteration permutation (SIP) method for large-scale biobank data (Annis et. al. "False discovery rates for genome-wide association tests in biobanks with thousands of phenotypes." https://doi.org/10.21203/rs.3.rs-873449/v1).
+
+Briefly, the SIP method takes advantage of analyzing many phenotypes across a biobank simultaneously. When a large number of phenotypes are analyzed in parallel, a single permutation across all phenotypes followed by genetic association analyses of the permuted data enables estimation of false discovery rates (FDRs) across the phenome. FDR estimates in turn help with interpretation of genetic associations in a biobank context.
+
+## SIP Example
+
+```{r SIP load data, echo = FALSE}
+load("~/SIP/data/sip_exampleData.rda")
+```
+
+The basic permutation procedure can be used with unrelated samples. SIP requires a sample-by-variable input file containing an ID, genotypic covariates, phenotypes, and phenotypic covariates: 
+
+```{r SIP example data}
+sip_exampleData[1:5, 1:15]
+```
+
+The default permutation method will permute within biological sex and requires specification of a sex variable and male and female values as well as ID and genotypic covariates. Additional ID variables (e.g., family ID) can be placed within the genotypic covariate vector. For example: 
+
+```{r SIP basic, eval=FALSE}
+sip(df = sip_exampleData, id.var = "IID", sex.var = "SEX", male.val = 1, female.val = 2, geno.vars = c("FID","ANCESTRY","BATCH",paste0("PC",1:4)))
+```
+
+Users may specify a seed. If not specified, a random seed will be chosen:
+
+```{r SIP set seed, eval=FALSE}
+sip(df = sip_exampleData, id.var = "IID", sex.var = "SEX", male.val = 1, female.val = 2, geno.vars = c("FID","ANCESTRY","BATCH",paste0("PC",1:4)), seed = 123)
+```
+
+If permutation without regard to sex is desired, the **within.sex** argument can be set to **FALSE** and the sex variable and male and female values are no longer required:  
+
+```{r SIP ignore sex, eval=FALSE}
+sip(df = sip_exampleData, id.var = "IID", within.sex = FALSE, geno.vars = c("FID","ANCESTRY","BATCH",paste0("PC",1:4)))
+```
+
+## SIP-pair Example
+
+The paired permutation procedure should  be used with related samples:
+
+```{r SIP pair load data, echo = FALSE}
+load("~/SIP/data/sipPair_exampleData.rda")
+load("~/SIP/data/sipPair_relatednessData.rda")
+sipPair_relatednessData <- sipPair_relatednessData[sample(seq(nrow(sipPair_relatednessData), nrow(sipPair_relatednessData))),]
+```
+
+```{r SIP pair example data}
+sipPair_exampleData[1:5, 1:15]
+```
+
+SIP-pair requires a data frame with identity by descent (IBD) relatedness information between individuals:
+
+```{r SIP pair relatedness example data}
+head(sipPair_relatednessData)
+```
+
+The default permutation method will permute within biological sex and requires specification of a sex variable and male and female values as well as ID and genotypic covariates. Additional ID variables (e.g., family ID) can be placed within the genotypic covariate vector. SIP-pair also requires specification of the relatedness data frame, pairs of ID variables within the relatedness data frame, and an IBD variable: 
+
+```{r SIP-pair basic, eval=FALSE}
+sip_pair(df = sipPair_exampleData, id.var = "IID", sex.var = "SEX", male.val = "M", female.val = "F", geno.vars = c("FID","BATCH",paste0("PC",1:4)), rel.df = sipPair_relatednessData, rid.vars=c("IID1","IID2"), ibd.var="PropIBD")
+```
+
+Users may specify a seed. If not specified, a random seed will be chosen:
+
+```{r SIP-pair set seed, eval=FALSE}
+sip_pair(df = sipPair_exampleData, id.var = "IID", sex.var = "SEX", male.val = "M", female.val = "F", geno.vars = c("FID","BATCH",paste0("PC",1:4)), rel.df = sipPair_relatednessData, rid.vars=c("IID1","IID2"), ibd.var="PropIBD", seed = 123)
+```
+
+If permutation without regard to sex is desired, the **within.sex** argument can be set to **FALSE** and the sex variable and male and female values are no longer required:  
+
+```{r SIP-pair ignore sex, eval=FALSE}
+sip_pair(df = sipPair_exampleData, id.var = "IID", geno.vars = c("FID","BATCH",paste0("PC",1:4)), rel.df = sipPair_relatednessData, rid.vars=c("IID1","IID2"), ibd.var="PropIBD", within.sex = FALSE)
+```
+
+## Phenotype Correlation Plots
+
+The SIP method maintains correlation among phenotypes:
+
+1. Permute data
+
+```{r SIP permute phenotypes}
+sip_exampleData_permuted <- sip(df = sip_exampleData, id.var = "IID", sex.var = "SEX", male.val = 1, female.val = 2, geno.vars = c("FID","ANCESTRY","BATCH",paste0("PC",1:4)))
+
+sip_exampleData_permuted[1:5, 1:15]
+```
+
+2. Plot correlations between phenotypes in the primary data
+
+```{r SIP plot phenotype correlations}
+plot_phenotype_correlations(df = sip_exampleData, pheno.vars = paste0("PHENO",1:500))
+```
+
+3. Plot correlations between phenotypes in the permuted data
+
+```{r SIP plot permuted phenotype correlations}
+plot_phenotype_correlations(df = sip_exampleData_permuted, pheno.vars = paste0("PHENO",1:500))
+```
+
+## Phenotype-IBD Correlation
+
+The SIP-pair method preserves correlation among related samples:
+
+1. Permute data without pairing
+
+```{r SIP permute related phenotypes}
+sipPair_exampleData_permuted <- sip(df = sipPair_exampleData, id.var = "IID", sex.var = "SEX", male.val = "M", female.val = "F", geno.vars = c("FID","BATCH",paste0("PC",1:4)))
+
+sipPair_exampleData_permuted[1:5, 1:15]
+```
+
+2. Permute data with pairing
+
+```{r SIP-pair permute related phenotypes}
+sipPair_exampleData_pairPermuted <- sip_pair(df = sipPair_exampleData, id.var = "IID", sex.var = "SEX", male.val = "M", female.val = "F", geno.vars = c("FID","BATCH",paste0("PC",1:4)), rel.df = sipPair_relatednessData, rid.vars=c("IID1","IID2"), ibd.var="PropIBD")
+
+sipPair_exampleData_pairPermuted[1:5, 1:15]
+```
+
+3. Calculate pairwise correlations between samples in primary, permuted, and pair-permuted phenotype data. Then calculate correlation between pairwise phenotype correlations and pairwise IBD status for samples.
+
+```{r calculate phenotype-IBD correlations commands, eval = FALSE}
+phenotype_IBD_correlation(df = sipPair_exampleData, id.var = "IID", rel.df = sipPair_relatednessData, rid.vars=c("IID1","IID2"), ibd.var="PropIBD", pheno.vars = paste0("PHENO",1:300))
+phenotype_IBD_correlation(df = sipPair_exampleData_permuted, id.var = "IID", rel.df = sipPair_relatednessData, rid.vars=c("IID1","IID2"), ibd.var="PropIBD", pheno.vars = paste0("PHENO",1:300))
+phenotype_IBD_correlation(df = sipPair_exampleData_pairPermuted, id.var = "IID", rel.df = sipPair_relatednessData, rid.vars=c("IID1","IID2"), ibd.var="PropIBD", pheno.vars = paste0("PHENO",1:300))
+```
+
+Multiple paired permutations show preserved correlation between pairwise phenotypes and IBD status. Multiple non-paired permutations show correlations around 0 for pairwise phenotypes and IBD status.
+
+```{r calculate phenotype-IBD correlations, echo = FALSE}
+
+c2 <- phenotype_IBD_correlation(df = sipPair_exampleData_permuted, id.var = "IID", rel.df = sipPair_relatednessData, rid.vars=c("IID1","IID2"), ibd.var="PropIBD", pheno.vars = paste0("PHENO",1:300))
+c3 <- phenotype_IBD_correlation(df = sipPair_exampleData_pairPermuted, id.var = "IID", rel.df = sipPair_relatednessData, rid.vars=c("IID1","IID2"), ibd.var="PropIBD", pheno.vars = paste0("PHENO",1:300))
+
+pwcors <- data.frame(Permutation=1,Permuted=c2,Pair_Permuted=c3)
+for (i in 2:10) {
+  
+  sipPair_exampleData_permuted <- sip(df = sipPair_exampleData, id.var = "IID", sex.var = "SEX", male.val = "M", female.val = "F", geno.vars = c("FID","BATCH",paste0("PC",1:4)))
+  sipPair_exampleData_pairPermuted <- sip_pair(df = sipPair_exampleData, id.var = "IID", sex.var = "SEX", male.val = "M", female.val = "F", geno.vars = c("FID","BATCH",paste0("PC",1:4)), rel.df = sipPair_relatednessData, rid.vars=c("IID1","IID2"), ibd.var="PropIBD")
+  
+  c2 <- phenotype_IBD_correlation(df = sipPair_exampleData_permuted, id.var = "IID", rel.df = sipPair_relatednessData, rid.vars=c("IID1","IID2"), ibd.var="PropIBD", pheno.vars = paste0("PHENO",1:300))
+  c3 <- phenotype_IBD_correlation(df = sipPair_exampleData_pairPermuted, id.var = "IID", rel.df = sipPair_relatednessData, rid.vars=c("IID1","IID2"), ibd.var="PropIBD", pheno.vars = paste0("PHENO",1:300))
+    curr <- data.frame(Permutation = i, Permuted=c2,  Pair_Permuted=c3)
+    pwcors <- rbind(pwcors, curr)
+}
+
+print(pwcors)
+```
+
+## Additional Data
+
+Summary statistics for associations with p<5e-6 in our primary and permuted UKB analyses (Annis et. al. "False discovery rates for genome-wide association tests in biobanks with thousands of phenotypes." https://doi.org/10.21203/rs.3.rs-873449/v1) are provided in the data/ directory.
