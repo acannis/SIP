@@ -6,3 +6,4 @@
 ^README\.Rmd$
 ^\.github$
 ^README_files/
+^.github/
