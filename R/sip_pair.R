@@ -48,6 +48,7 @@
 #' @param id.var,sex.var,ibd.var Strings
 #' @param male.val,female.val Strings or integers
 #' @param geno.vars,rid.vars Character vectors
+#' @param within.sex Boolean, defaults to TRUE
 #' @param seed Number
 #' @returns Data frame
 #' @export

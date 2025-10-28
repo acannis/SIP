@@ -30,7 +30,7 @@
 #' @param df,rel.df Data frame
 #' @param id.var,ibd.var Strings
 #' @param pheno.vars,rid.vars Character vectors
-#' @param seed Number
+# #' @param seed Number
 #' @returns Correlation
 #' @export
 #' @examples
