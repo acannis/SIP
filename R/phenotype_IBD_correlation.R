@@ -34,10 +34,17 @@
 #' @returns Correlation
 #' @export
 #' @examples
+#' \dontrun{
 #' phenotype_IBD_correlation(df = sipPair_exampleData,
 #' rel.df = sipPair_relatednessData, id.var = "IID",
 #' rid.vars = c("IID1","IID2"), ibd.var = "PropIBD",
+#' pheno.vars = paste0("PHENO",1:300))}
+#'
+#' phenotype_IBD_correlation(df = sipPair_exampleData[1:200,],
+#' rel.df = sipPair_relatednessData, id.var = "IID",
+#' rid.vars = c("IID1","IID2"), ibd.var = "PropIBD",
 #' pheno.vars = paste0("PHENO",1:300))
+#'
 
 phenotype_IBD_correlation <- function(df = NULL, rel.df = NULL,
                                           id.var = NULL, rid.vars = NULL,

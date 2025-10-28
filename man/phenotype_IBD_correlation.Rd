@@ -50,8 +50,15 @@ Column names should include two ID variables and an IBD variable.
 6) A string identifying the IBD variable name (e.g., ibd.var="PropIBD").
 }
 \examples{
+\dontrun{
 phenotype_IBD_correlation(df = sipPair_exampleData,
 rel.df = sipPair_relatednessData, id.var = "IID",
 rid.vars = c("IID1","IID2"), ibd.var = "PropIBD",
+pheno.vars = paste0("PHENO",1:300))}
+
+phenotype_IBD_correlation(df = sipPair_exampleData[1:200,],
+rel.df = sipPair_relatednessData, id.var = "IID",
+rid.vars = c("IID1","IID2"), ibd.var = "PropIBD",
 pheno.vars = paste0("PHENO",1:300))
+
 }
