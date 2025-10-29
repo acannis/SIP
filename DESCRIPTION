@@ -2,7 +2,7 @@ Package: SIP
 Type: Package
 Title: Single-Iteration Permutation for Large-Scale Biobank Data
 Version: 0.1.0
-Author: Aubrey Annis
+Authors@R: c(person("Abrey", "Annis", role = c("aut", "cre"), email = "acannis@umich.edu"))
 Description: A single, phenome-wide permutation of large-scale biobank data.
     When a large number of phenotypes are analyzed in parallel, a single 
     permutation across all phenotypes followed by genetic association analyses 
@@ -13,11 +13,12 @@ Description: A single, phenome-wide permutation of large-scale biobank data.
     file with ID, genotypic covariates, phenotypic covariates, and phenotypes 
     as input. For data with related samples, it also takes a file with 
     sample pair-wise identity-by-descent information. 
-    The function outputs a permuted sample-by-variable file ready  
-    for genome-wide association analysis.
+    The function outputs a permuted sample-by-variable file ready 
+    for genome-wide association analysis. See Annis et al. (2021) <doi:10.21203/rs.3.rs-873449/v1> 
+    for details.
 URL: https://github.com/acannis/SIP
 BugReports: https://github.com/acannis/SIP/issues
-License: use_mit_license()
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Depends: 
@@ -26,7 +27,7 @@ Imports:
     stats,
     data.table,
     ggplot2
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

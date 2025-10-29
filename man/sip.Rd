@@ -24,6 +24,8 @@ sip(
 
 \item{geno.vars}{Character vectors}
 
+\item{within.sex}{Boolean, defaults to TRUE}
+
 \item{seed}{Number}
 }
 \value{
