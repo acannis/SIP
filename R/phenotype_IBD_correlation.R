@@ -30,14 +30,22 @@
 #' @param df,rel.df Data frame
 #' @param id.var,ibd.var Strings
 #' @param pheno.vars,rid.vars Character vectors
-#' @param seed Number
+# #' @param seed Number
 #' @returns Correlation
 #' @export
 #' @examples
+#' \dontrun{
 #' phenotype_IBD_correlation(df = sipPair_exampleData,
 #' rel.df = sipPair_relatednessData, id.var = "IID",
 #' rid.vars = c("IID1","IID2"), ibd.var = "PropIBD",
+#' pheno.vars = paste0("PHENO",1:300))}
+#'
+#' phenotype_IBD_correlation(df = sipPair_exampleData[
+#' sipPair_exampleData$IID %in% unlist(sipPair_relatednessData[1:100,c("IID1",
+#' "IID2")]),], rel.df = sipPair_relatednessData[1:100,], id.var = "IID",
+#' rid.vars = c("IID1","IID2"), ibd.var = "PropIBD",
 #' pheno.vars = paste0("PHENO",1:300))
+#'
 
 phenotype_IBD_correlation <- function(df = NULL, rel.df = NULL,
                                           id.var = NULL, rid.vars = NULL,
@@ -133,11 +141,11 @@ phenotype_IBD_correlation <- function(df = NULL, rel.df = NULL,
         return(stats::cor(as.data.frame(picor)[,c(ibd.var,
                                                   "pheno_correlation")])[2])
       } else {
-        print("Error")
+        message("Error")
       }
 
     }, error = function(e){
-      print(
+      message(
         sprintf("An error occurred at %s : %s",
                 Sys.time(),
                 e)

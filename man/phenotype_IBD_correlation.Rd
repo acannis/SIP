@@ -19,8 +19,6 @@ phenotype_IBD_correlation(
 \item{id.var, ibd.var}{Strings}
 
 \item{pheno.vars, rid.vars}{Character vectors}
-
-\item{seed}{Number}
 }
 \value{
 Correlation
@@ -52,8 +50,16 @@ Column names should include two ID variables and an IBD variable.
 6) A string identifying the IBD variable name (e.g., ibd.var="PropIBD").
 }
 \examples{
+\dontrun{
 phenotype_IBD_correlation(df = sipPair_exampleData,
 rel.df = sipPair_relatednessData, id.var = "IID",
 rid.vars = c("IID1","IID2"), ibd.var = "PropIBD",
+pheno.vars = paste0("PHENO",1:300))}
+
+phenotype_IBD_correlation(df = sipPair_exampleData[
+sipPair_exampleData$IID \%in\% unlist(sipPair_relatednessData[1:100,c("IID1",
+"IID2")]),], rel.df = sipPair_relatednessData[1:100,], id.var = "IID",
+rid.vars = c("IID1","IID2"), ibd.var = "PropIBD",
 pheno.vars = paste0("PHENO",1:300))
+
 }

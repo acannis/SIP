@@ -1,3 +1,9 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^data-raw$
+^data/.*\.txt\.gz$
+^inst$
+^README\.Rmd$
+^\.github$
+^README_files/
+^.github/

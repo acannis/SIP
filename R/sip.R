@@ -39,6 +39,7 @@
 #' @param male.val,female.val Strings or integers
 #' @param geno.vars Character vectors
 #' @param seed Number
+#' @param within.sex Boolean, defaults to TRUE
 #' @returns Data frame
 #' @export
 #' @examples
@@ -138,7 +139,7 @@ sip <- function(df = NULL, id.var = NULL, sex.var = NULL, male.val = NULL,
         if (is.null(seed)) {
           seed <- sample(seq(999999), 1)
         }
-        print(paste("Seed:",seed))
+        message(paste("Seed:",seed))
 
         # get permutation index #
         if (female.val %in% unique(df[[sex.var]])) {
@@ -184,7 +185,7 @@ sip <- function(df = NULL, id.var = NULL, sex.var = NULL, male.val = NULL,
         if (is.null(seed)) {
           seed <- sample(seq(999999), 1)
         }
-        print(paste("Seed:",seed))
+        message(paste("Seed:",seed))
 
         # get permutation index #
         idx <- get_permIdx(df = df, seed = seed)
@@ -199,7 +200,7 @@ sip <- function(df = NULL, id.var = NULL, sex.var = NULL, male.val = NULL,
       return(operm)
 
     }, error = function(e){
-      print(
+      message(
         sprintf("An error occurred at %s : %s",
                 Sys.time(),
                 e)
