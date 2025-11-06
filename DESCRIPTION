@@ -2,7 +2,7 @@ Package: SIP
 Type: Package
 Title: Single-Iteration Permutation for Large-Scale Biobank Data
 Version: 0.1.0
-Authors@R: c(person("Abrey", "Annis", role = c("aut", "cre"), email = "acannis@umich.edu"))
+Authors@R: c(person("Aubrey", "Annis", role = c("aut", "cre"), email = "acannis@umich.edu"))
 Description: A single, phenome-wide permutation of large-scale biobank data.
     When a large number of phenotypes are analyzed in parallel, a single 
     permutation across all phenotypes followed by genetic association analyses 
