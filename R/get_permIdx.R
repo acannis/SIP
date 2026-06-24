@@ -8,14 +8,16 @@
 
 get_permIdx <- function(df, seed = seed) {
 
-  # save the current RNG state #
-  og_seed <- .Random.seed
+  if (exists(".Random.seed")) {
+    # save the current RNG state #
+    og_seed <- .Random.seed
 
-  # set on.exit() #
-  on.exit({
-    .Random.seed <<- og_seed
-  })
-
+    # set on.exit() #
+    on.exit({
+      .Random.seed <<- og_seed
+    })
+   }
+  
   # set seed and permute #
   set.seed(seed)
   pidx <- sample(seq(nrow(df)), nrow(df), replace = FALSE)
