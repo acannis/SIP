@@ -28,10 +28,14 @@
 #' 6) If within.sex = TRUE (the default), male and female values
 #' in the sex vector (e.g., male.val=1, female.val=2).
 #'
-#' 7) Optional: a seed for sampling. If a seed is not provided, one will be
+#' 7) Optional: return.perm.pairs = TRUE (default is FALSE) 
+#' will return IDs corresponding to the fixed data vector
+#' and permuted data vector for each line of the permuted dataset.
+#'
+#' 8) Optional: a seed for sampling. If a seed is not provided, one will be
 #' chosen randomly during the sampling process (e.g., seed=123).
 #'
-#' 8) N.B. Any column names not specified in (2)-(6) are assumed to be
+#' 9) N.B. Any column names not specified in (2)-(6) are assumed to be
 #' phenotypes or phenotypic covariates.
 #'
 #' @param df Data frame
@@ -48,7 +52,7 @@
 
 sip <- function(df = NULL, id.var = NULL, sex.var = NULL, male.val = NULL,
                 female.val = NULL, geno.vars = NULL,
-                within.sex = TRUE, return.pairs = FALSE, seed = NULL) {
+                within.sex = TRUE, return.perm.pairs = FALSE, seed = NULL) {
 
   tryCatch(
 
@@ -146,7 +150,7 @@ sip <- function(df = NULL, id.var = NULL, sex.var = NULL, male.val = NULL,
           fidx <- get_permIdx(df = fdf, seed = seed)
 
           # get pairings if desired 
-          if (return.pairs == TRUE) {
+          if (return.perm.pairs == TRUE) {
             fpairs <- data.frame(fixed_data = fdf[[id.var]], permuted_data = fdf[[id.var]][fidx])
           }
         }
@@ -155,7 +159,7 @@ sip <- function(df = NULL, id.var = NULL, sex.var = NULL, male.val = NULL,
           midx <- get_permIdx(df = mdf, seed = seed)
 
           # get pairings if desired 
-          if (return.pairs == TRUE) {
+          if (return.perm.pairs == TRUE) {
             mpairs <- data.frame(fixed_data = mdf[[id.var]], permuted_data = mdf[[id.var]][midx])
           }
         }
@@ -182,7 +186,7 @@ sip <- function(df = NULL, id.var = NULL, sex.var = NULL, male.val = NULL,
         }
 
         # combine pairs if pairings are desired #
-        if (return.pairs == TRUE) {
+        if (return.perm.pairs == TRUE) {
           if (female.val %in% unique(df[[sex.var]])
             & male.val %in% unique(df[[sex.var]])) {
             pairs <- rbind(fpairs, mpairs)
@@ -215,7 +219,7 @@ sip <- function(df = NULL, id.var = NULL, sex.var = NULL, male.val = NULL,
         idx <- get_permIdx(df = df, seed = seed)
 
         # get pairings if desired #
-        if (return.pairs == TRUE) {
+        if (return.perm.pairs == TRUE) {
           pairs <- data.frame(IID = df[[id.var]], fixed_data_id = df[[id.var]], permuted_data_id = df[[id.var]][idx])
         }
 
@@ -225,7 +229,7 @@ sip <- function(df = NULL, id.var = NULL, sex.var = NULL, male.val = NULL,
       }
 
       # attach pairings if desired #
-      if (return.pairs == TRUE) {
+      if (return.perm.pairs == TRUE) {
         df <- merge(df, pairs, by = "IID")
       }
 
