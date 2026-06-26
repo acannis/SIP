@@ -219,7 +219,7 @@ sip_pair <- function(df = NULL, id.var = NULL,
         message(paste("Seed:",seed))
         set.seed(seed)
 
-        # get paired permutations #
+        # get paired permutations for an even number of individuals #
         if (female.val %in% unique(df[[sex.var]])) {
           fmtch1 <- get_pairPerm(deglst = fdeg, rid.vars = rid.vars,
                                  ibd.var = ibd.var, seed = seed)
@@ -230,7 +230,7 @@ sip_pair <- function(df = NULL, id.var = NULL,
                                  ibd.var = ibd.var, seed = seed)
         }
 
-        # get single permutations #
+        # get single permutations for any leftover (extra) individuals #
         if (exists("fex")) {
           fex <- fex[order(fex[[id.var]]),]
           fmtch2 <- data.frame(fixid=fex[[id.var]],
@@ -267,6 +267,17 @@ sip_pair <- function(df = NULL, id.var = NULL,
 
           mperm <- get_pairPermDF(fix.df = mfix, perm.df = mpheno,
                                   perm.map = mmtch, id.var = id.var)
+        }
+
+        # get pairings if desired #
+        if (return.pairs == TRUE) {
+          if (exists(fmtch) & exists(mmtch)) {
+            mtch <- rbind(fmtch, mmtch)
+          } else if (exists(fmtch) & !(exists(mmtch))) {
+            mtch <- fmtch
+          } else if (!(exists(fmtch)) & exists(mmtch)) {
+            mtch <- mmtch
+          }
         }
 
         # recombine permuted sex-specific datasets #
@@ -330,6 +341,13 @@ sip_pair <- function(df = NULL, id.var = NULL,
         perm <- get_pairPermDF(fix.df = fix, perm.df = pheno,
                                 perm.map = mtch, id.var = id.var)
 
+      }
+
+      # return pairings if desired #
+      if (return.pairs == TRUE) {
+        colnames(mtch)[colnames(mtch) %in% c("fixid", "permid")] <- c("fixed_data_id", "permuted_data_id")
+        mtch$IID <- mtch$fixed_data_id
+        perm <- merge(perm, mtch, by = "IID")
       }
 
       # reorder permuted data #
