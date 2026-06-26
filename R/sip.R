@@ -151,7 +151,7 @@ sip <- function(df = NULL, id.var = NULL, sex.var = NULL, male.val = NULL,
 
           # get pairings if desired 
           if (return.perm.pairs == TRUE) {
-            fpairs <- data.frame(fixed_data = fdf[[id.var]], permuted_data = fdf[[id.var]][fidx])
+            fpairs <- data.frame(fixed_data_id = fdf[[id.var]], permuted_data_id = fdf[[id.var]][fidx])
           }
         }
 
@@ -160,7 +160,7 @@ sip <- function(df = NULL, id.var = NULL, sex.var = NULL, male.val = NULL,
 
           # get pairings if desired 
           if (return.perm.pairs == TRUE) {
-            mpairs <- data.frame(fixed_data = mdf[[id.var]], permuted_data = mdf[[id.var]][midx])
+            mpairs <- data.frame(fixed_data_id = mdf[[id.var]], permuted_data_id = mdf[[id.var]][midx])
           }
         }
 
