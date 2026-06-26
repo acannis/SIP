@@ -5,8 +5,12 @@
 #' @param id.var String
 #' @returns Data frame
 
-order_permDF <- function(df = df, perm = perm, id.var = id.var) {
-  perm <- perm[, colnames(df)]
+order_permDF <- function(df = df, perm = perm, id.var = id.var, return.perm.pairs = return.perm.pairs) {
+  if (return.perm.pairs == TRUE) {
+    perm <- perm[, c(colnames(df),"fixed_data_id","permuted_data_id")]
+  } else {
+    perm <- perm[, colnames(df)]
+  }
   perm <- perm[match(df[[id.var]], perm[[id.var]]), ]
   return(perm)
 }
