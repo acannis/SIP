@@ -66,7 +66,7 @@
 sip_pair <- function(df = NULL, id.var = NULL,
                      sex.var = NULL, male.val = NULL,
                     female.val = NULL, geno.vars = NULL,
-                    within.sex = TRUE, seed = NULL,
+                    within.sex = TRUE, return.perm.pairs = FALSE, seed = NULL,
                     rel.df = NULL, rid.vars = NULL, ibd.var = NULL) {
 
   tryCatch(
