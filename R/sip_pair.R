@@ -355,7 +355,7 @@ sip_pair <- function(df = NULL, id.var = NULL,
       }
 
       # reorder permuted data #
-      operm <- order_permDF(df = df, perm = perm, id.var = id.var)
+      operm <- order_permDF(df = df, perm = perm, id.var = id.var, return.perm.pairs = return.perm.pairs)
       return(operm)
 
     }, error = function(e){
