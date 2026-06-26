@@ -29,19 +29,23 @@
 #'
 #' 6) A string identifying the IBD variable name (e.g., ibd.var="PropIBD").
 #'
-#' 7) Optional: within.sex = FALSE. Default is within.sex = TRUE
+#' 7) Optional: return.perm.pairs = TRUE (default is FALSE) 
+#' will return IDs corresponding to the fixed data vector
+#' and permuted data vector for each line of the permuted dataset.
+#'
+#' 8) Optional: within.sex = FALSE. Default is within.sex = TRUE
 #' and will permute males and females separately.
 #'
-#' 8) If within.sex = TRUE (the default), a string identifying the
+#' 9) If within.sex = TRUE (the default), a string identifying the
 #' sex variable name (e.g., sex.var="Inferred_Sex").
 #'
-#' 9) If within.sex = TRUE (the default), male and female values
+#' 10) If within.sex = TRUE (the default), male and female values
 #' in the sex vector (e.g., male.val=1, female.val=2).
 #'
-#' 10) Optional: a seed for sampling. If a seed is not provided, one will be
+#' 11) Optional: a seed for sampling. If a seed is not provided, one will be
 #' chosen randomly during the sampling process (e.g., seed=123).
 #'
-#' 11) N.B. Any column names not specified in (2)-(9) are assumed to be
+#' 12) N.B. Any column names not specified in (2)-(9) are assumed to be
 #' phenotypes or phenotypic covariates.
 #'
 #' @param df,rel.df Data frame
