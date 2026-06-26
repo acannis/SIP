@@ -230,7 +230,7 @@ sip <- function(df = NULL, id.var = NULL, sex.var = NULL, male.val = NULL,
 
       # attach pairings if desired #
       if (return.perm.pairs == TRUE) {
-        df <- merge(df, pairs, by = "IID")
+        perm <- merge(perm, pairs, by = "IID")
       }
 
       # reorder permuted data #
