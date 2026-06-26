@@ -48,7 +48,7 @@
 
 sip <- function(df = NULL, id.var = NULL, sex.var = NULL, male.val = NULL,
                 female.val = NULL, geno.vars = NULL,
-                within.sex = TRUE, seed = NULL) {
+                within.sex = TRUE, return.pairs = FALSE, seed = NULL) {
 
   tryCatch(
 
@@ -144,10 +144,20 @@ sip <- function(df = NULL, id.var = NULL, sex.var = NULL, male.val = NULL,
         # get permutation index #
         if (female.val %in% unique(df[[sex.var]])) {
           fidx <- get_permIdx(df = fdf, seed = seed)
+
+          # get pairings if desired 
+          if (return.pairs == TRUE) {
+            fpairs <- data.frame(fixed_data = fdf[[id.var]], permuted_data = fdf[[id.var]][fidx])
+          }
         }
 
         if (male.val %in% unique(df[[sex.var]])) {
           midx <- get_permIdx(df = mdf, seed = seed)
+
+          # get pairings if desired 
+          if (return.pairs == TRUE) {
+            mpairs <- data.frame(fixed_data = mdf[[id.var]], permuted_data = mdf[[id.var]][midx])
+          }
         }
 
         # reintegrate into permuted datasets #
@@ -158,7 +168,7 @@ sip <- function(df = NULL, id.var = NULL, sex.var = NULL, male.val = NULL,
         if (male.val %in% unique(df[[sex.var]])) {
           mperm <- get_permDF(fix.df = mfix, perm.df = mpheno, perm.idx = midx)
         }
-
+        
         # recombine permuted sex-specific datasets #
         if (female.val %in% unique(df[[sex.var]])
             & male.val %in% unique(df[[sex.var]])) {
@@ -169,6 +179,20 @@ sip <- function(df = NULL, id.var = NULL, sex.var = NULL, male.val = NULL,
         } else if (!(female.val %in% unique(df[[sex.var]]))
                    & male.val %in% unique(df[[sex.var]])) {
           perm <- mperm
+        }
+
+        # combine pairs if pairings are desired #
+        if (return.pairs == TRUE) {
+          if (female.val %in% unique(df[[sex.var]])
+            & male.val %in% unique(df[[sex.var]])) {
+            pairs <- rbind(fpairs, mpairs)
+          } else if (female.val %in% unique(df[[sex.var]])
+                   & !(male.val %in% unique(df[[sex.var]]))) {
+            pairs <- fpairs
+          } else if (!(female.val %in% unique(df[[sex.var]]))
+                   & male.val %in% unique(df[[sex.var]])) {
+            pairs <- mpairs
+          }
         }
 
       } else {
@@ -190,9 +214,19 @@ sip <- function(df = NULL, id.var = NULL, sex.var = NULL, male.val = NULL,
         # get permutation index #
         idx <- get_permIdx(df = df, seed = seed)
 
+        # get pairings if desired #
+        if (return.pairs == TRUE) {
+          pairs <- data.frame(IID = df[[id.var]], fixed_data_id = df[[id.var]], permuted_data_id = df[[id.var]][idx])
+        }
+
         # reintegrate into permuted datasets #
         perm <- get_permDF(fix.df = fix, perm.df = pheno, perm.idx = idx)
 
+      }
+
+      # attach pairings if desired #
+      if (return.pairs == TRUE) {
+        df <- merge(df, pairs, by = "IID")
       }
 
       # reorder permuted data #
