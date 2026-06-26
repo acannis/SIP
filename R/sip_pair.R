@@ -274,7 +274,7 @@ sip_pair <- function(df = NULL, id.var = NULL,
         }
 
         # get pairings if desired #
-        if (return.pairs == TRUE) {
+        if (return.perm.pairs == TRUE) {
           if (exists(fmtch) & exists(mmtch)) {
             mtch <- rbind(fmtch, mmtch)
           } else if (exists(fmtch) & !(exists(mmtch))) {
@@ -348,7 +348,7 @@ sip_pair <- function(df = NULL, id.var = NULL,
       }
 
       # return pairings if desired #
-      if (return.pairs == TRUE) {
+      if (return.perm.pairs == TRUE) {
         colnames(mtch)[colnames(mtch) %in% c("fixid", "permid")] <- c("fixed_data_id", "permuted_data_id")
         mtch$IID <- mtch$fixed_data_id
         perm <- merge(perm, mtch, by = "IID")
